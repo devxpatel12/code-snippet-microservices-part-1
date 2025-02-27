@@ -23,7 +23,7 @@ const CreateSnippet = () => {
   useEffect(() => {
     const fetchSnippets = async () => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/snippet");
+        const res = await axios.get("http://localhost:8002/snippets");
         setSnippets(res.data);
       } catch (error) {
         console.log("error while fetching snippet", error);
@@ -57,7 +57,7 @@ const CreateSnippet = () => {
         {Object.values(snippets).map((snippet) => (
           <div key={snippet.id} className="p-3 border rounded">
             <h1 className="font-bold text-xl">{snippet.title}</h1>
-            <CreateComment snippetId={snippet.id}/>
+            <CreateComment snippet={snippet}/>
           </div>
         ))}
       </div>

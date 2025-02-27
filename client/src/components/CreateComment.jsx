@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-const CreateComment = ({ snippetId }) => {
+const CreateComment = ({ snippet }) => {
   const [text, setText] = useState("");
   const [comments, setComments] = useState([]);
 
@@ -9,7 +9,7 @@ const CreateComment = ({ snippetId }) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `http://localhost:8001/api/v1/snippet/${snippetId}/comment`,
+        `http://localhost:8001/api/v1/snippet/${snippet.id}/comment`,
         { text }
       ); 
       setComments([...comments, res.data.comment]);
@@ -18,23 +18,11 @@ const CreateComment = ({ snippetId }) => {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    const fetchComments = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:8001/api/v1/snippet/${snippetId}/comment`
-        ); 
-       setComments(res.data)
-      } catch (error) {}
-    };
-    fetchComments();
-  }, []);
-
+ 
   return (
     <div className="mt-3">
-      {comments.map((comment, index) => (
-        <li key={index} className="text-sm">{comment.text}</li>
+      {snippet.comments.map((comment, index) => (
+        <li key={index} className="text-sm">{comment.content}</li>
       ))}
       <form onSubmit={addComment} className="flex mt-3  items-center gap-2">
         <input
